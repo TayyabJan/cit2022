@@ -1,13 +1,37 @@
-const todos = require('../data/others/todos.json')
+const  todoList = require('../data/others/todos.json').list;
+
 
 // 1. Write a function that takes an array of todo objects and returns an array of the todo titles
 //   (i.e. the `title` property of each todo object).
 //  The returned array should be sorted alphabetically.
 
+function sortTitleAsc( a ) {
+    
+       return a.map(item => item.title).sort() ;
+}
+const sortedTitles = sortTitleAsc(todoList);
+console.log(sortedTitles);
+
 // 2. Write a function that takes an array of todo objects and returns an array of the todo titles for incomplete tasks
 //  (i.e. the `title` property of each todo object that has a `completed` property set to `false`).
 //  The returned array should be sorted alphabetically.
 
+function sortTitleAscIncomplete( a ) {
+    
+    return a.filter( item => (!item.completed)).map(item => item.title).sort() ;
+}
+const titleswithIncomplete = sortTitleAscIncomplete(todoList);
+console.log(titleswithIncomplete);
+
+
 // 3. Write a function that takes an array of todo objects and returns an array of the todo titles for complete tasks
 // (i.e. the `title` property of each todo object that has a `completed` property set to `true`).
 //  The returned array should be sorted alphabetically.
+
+
+function sortTitleAscIncomplete( a ) {
+    
+    return a.filter( item => (!item.completed)).map(item => item.title).sort() ;
+}
+const titleswithComplete = sortTitleAscIncomplete(todoList);
+console.log(titleswithComplete);

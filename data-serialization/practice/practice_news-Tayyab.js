@@ -1,4 +1,4 @@
-const  news=  require('../data/others/news.json');
+const  arrticles=  require('../data/others/news.json').articles;
 // Tasks
 
 // 1. Name all the sources with null ids.
@@ -8,7 +8,7 @@ const  news=  require('../data/others/news.json');
 // 5. Print the title, content and description of the oldest article.
 // 6. Print the article with the longest title.
 // 7. Print all the articles from the same source. find duplicate articles
-const arrticles = news.articles;
+
   
 // // TASK 1. Name all the sources with null ids.
 
@@ -110,5 +110,8 @@ const articlesWithSameName = arrticles
 
 
 console.log(articlesWithSameName);
+
+console.log(articlesWithSameName.length);
+console.log(arrticles.length);
  
     
