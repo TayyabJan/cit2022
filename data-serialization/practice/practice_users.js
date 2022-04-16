@@ -6,12 +6,24 @@
 // //    If there are two or more users with the same length, return the one with the lowest id.
 
 // // // Method 1  ( The DRY CONCEPT :) 
-// const NameLengthfn2 = (a =>  a.map (users => users.name.firstname+users.name.lastname)
-//                         .sort( (a,b) => (a.length-b.length)));
-// const names = NameLengthfn2(users);
+const NameLengthfn2 = (a =>  a.map (users => users.name.firstname+ " " + users.name.lastname)
+                        .sort( (a,b) => (a.length-b.length)));
+const names = NameLengthfn2(users);
 
-// console.log("\n Shortest Name is : " + names[0] + "\n Longest Name is : " + names[names.length-1] );
+let nameWithLowestLength  = names[0];
+let nameWithHighestLength  = names[names.length-1];
 
+const getLowestfn =  ( (u, value) => 
+                            u.map( u => (value == (u.name.firstname + " " + u.name.lastname).length) ? u.name.firstname + " " + u.name.lastname : null)
+                            .filter(u => u!=null)
+                            .sort((a,b) => (a-b)));
+                        
+                            nameWithLowestLength = getLowestfn(users,nameWithLowestLength.length);
+                            nameWithHighestLength = getLowestfn(users,nameWithHighestLength.length);
+
+console.log("\n Shortest Name is : " + nameWithLowestLength[0] + "\n Longest Name is : " +  nameWithHighestLength[0]);
+
+// Above code performs both task 1 & 2
 
 // // // Method 2 
 // const highestNamefn = (a =>
@@ -93,36 +105,36 @@
 
  
 // // 8. Create a function that checks if there are any user from the same city.
-const cityList = users.map(u => u.address.city).sort();
-console.log(cityList);
-const userOfSameCityfn = (list) =>  list.filter( (item,index) => list.indexOf(item)!=index);
+// const cityList = users.map(u => u.address.city).sort();
+// console.log(cityList);
+// const userOfSameCityfn = (list) =>  list.filter( (item,index) => list.indexOf(item)!=index);
 
-const userOfSameCity = userOfSameCityfn(cityList);
-console.log(userOfSameCity);
+// const userOfSameCity = userOfSameCityfn(cityList);
+// console.log(userOfSameCity);
 
-const userWithSameCity = ( (u,city) => u.map( u => city.includes(u.address.city) ? u : null)
-                            .filter(a => a != null));
+// const userWithSameCity = ( (u,city) => u.map( u => city.includes(u.address.city) ? u : null)
+//                             .filter(a => a != null));
 
                         
-                            const userWithSameCity1 = ( (u,city) => u.map( u => city.includes(u.address.city)? u : null)
-                                                  .filter(a=>a!=null));
+//                             const userWithSameCity1 = ( (u,city) => u.map( u => city.includes(u.address.city)? u : null)
+//                                                   .filter(a=>a!=null));
       
              
-                const usersInSameCity = userWithSameCity1(users,userOfSameCity);
-                console.log(usersInSameCity);
+//                 const usersInSameCity = userWithSameCity1(users,userOfSameCity);
+//                 console.log(usersInSameCity);
 
 
-// // 9. Create a function to check if there is any invalid email in the users list. (use regex)
+// // // 9. Create a function to check if there is any invalid email in the users list. (use regex)
 
-const myEmail1 = "abc123@gmail.com";
-const myEmail2 = "$@123@gmail.com";
-const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-console.log(emailPattern.test(myEmail1));
-console.log(emailPattern.test(myEmail2));
+// const myEmail1 = "abc123@gmail.com";
+// const myEmail2 = "$@123@gmail.com";
+// const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+// console.log(emailPattern.test(myEmail1));
+// console.log(emailPattern.test(myEmail2));
 
-const emailValidator = (u => u.map(u => emailPattern.test(u.email)? u.email + " --Valid " : u.email + "-- InValid ") );
+// const emailValidator = (u => u.map(u => emailPattern.test(u.email)? u.email + " --Valid " : u.email + "-- InValid ") );
 
-const emailList = emailValidator(users);
-console.log(emailList);
+// const emailList = emailValidator(users);
+// console.log(emailList);
 
  
