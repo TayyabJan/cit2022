@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Title</title>
+</head>
+
+<body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+
+
+
+
+
+    <button onclick="showUsers()">Get Using Ajax</button>
+    <button onclick="showUsingFetchDotThen()"> Fetch with Then</button>
+    <button onclick="showUsingFetchAwait()">Fetch with Await</button>
+    <label id="users"></label>
+
+    <div id="ghubusers">
+
+    </div>
+
+
+
+    <script>
+
+        const divUsers = document.getElementById('ghubusers');
+
+
+        const showUsers = () => {
+
+            divUsers.innerHTML = "";
+
+            document.getElementById('users').innerHTML = "Welcome to API Basics Using Ajax";
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.github.com/users', true);
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const data = JSON.parse(this.responseText)
+
+                    //     const table = document.createElement('table');
+                    //     table.id="usersTable";
+                    //     table.border="1";
+
+                    //     for (x in data[0])
+                    //     {
+                    //         const tr = document.createElement('tr');
+                    //         const th = document.createElement('th');
+                    //         th.innerHTML = x;
+                    //         tr.appendChild(th);
+                    //         table.appendChild(tr);
+                    //     }
+                    //     divUsers.appendChild(table);
+                    //     console.log(x);
+                    //    //console.log(data);
+
+                    let tabletext = `<table id='sampletbl' class="table table-striped" border=1><thead><tr>`;
+                    let tableend = "</tr></thead>";
+                    for (x in data[0]) {
+
+                        tabletext += "<th>" + x + "</th>";
+                    }
+                    tabletext += tableend + "<tbody>";
+
+
+                    for (let i = 0; i < data.length; i++) {
+                        tabletext += "<tr>";
+                        for (x in data[i]) {
+                            tabletext += "<td>" + data[i][x] + "</td>";
+                        }
+                        tabletext += "</tr>";
+                    }
+
+                    tabletext += "</tbody></table>";
+
+                    divUsers.innerHTML = tabletext;
+
+
+                    //console.log(this.responseText);
+                    // const logins = data.map(data  =>'<li>' +  data.login +"</li>" ).join('');
+                    //console.log(logins);
+                    // divUsers.innerHTML = logins;
+
+                    // display only key names
+
+
+                }
+
+
+            }
+            xhr.send();
+        }
+
+        const showUsingFetchDotThen = () => {
+
+            divUsers.innerHTML = "";
+            document.getElementById('users').innerHTML = "Welcome to API Basics Using Fetch ";
+
+            fetch('https://api.github.com/users')
+                .then((res) => (res.json()))
+                .then(json => {
+                    const logins = `<li> ${json.map(data => data.login).join('</li><li>')}`;
+                    divUsers.innerHTML = logins;
+                    console.log(json);
+
+                    // for ( x in json)
+                    // {
+                    //     divUsers.innerHTML +=  x+ "<br>";
+                    // }
+
+
+                })
+
+        }
+
+
+
+        const showUsingFetchAwait = async () => {
+
+
+            divUsers.innerHTML = "";
+            document.getElementById('users').innerHTML = "Welcome to API Basics Using Fetch Await";
+            const resp = await fetch('https://api.github.com/users')
+            const json = await resp.json();
+            console.log(json[0]);
+            const logins = `<li> ${json.map(data => data.login).join('</li><li>')}`;
+            divUsers.innerHTML = logins;
+
+            //const data = JSON.parse(json);
+            //console.log(data);
+
+
+            // for (x in json)
+            // {
+            //     divUsers.innerHTML +=  json[x]+ "<br>";
+            // }
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
