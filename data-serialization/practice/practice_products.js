@@ -74,7 +74,7 @@ const productsWithSameCategory = products.map ( p => sameCategoryList.includes(p
 
 console.log(categoryListSet);
 console.log(productsWithSameCategory.map(p=>p.category)); 
-// this dont'y show the test category created last cz it has no many products
+// this dont' show the test category created last cz it has no many products
 
 
 
