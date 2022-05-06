@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container">
+  
+        <input type="text" id="task" placeholder="Enter your task" >
+        <select id="task_statuses"">
+            <option>Select Status</option>
+            <option>Completed</option>
+            <option>In Complete</option>
+        </select>
+        <input type="submit" id="add" onclick="manage_tasks()" value="Add">
+        <label id="lblresults">...</label>
+        <div id="datalist">
+
+        </div>
+
+    </form>
+    </div>
+    <script>
+        let tasks  = JSON.parse(localStorage.getItem("tasks"));
+        
+        tasks.map(n => console.log(n.taskName + "\n" ));
+      let data="";
+      /// create table 
+
+     const tasksTable =  document.createElement("table");
+        tasksTable.id="tasksTable";
+        tasksTable.border="1";
+
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+
+        const tr = document.createElement("tr");
+
+        const th_Task = document.createElement("th");
+        th_Task.innerHTML="Task Name ";
+        tr.appendChild(th_Task);
+        const th_TastStatus = document.createElement("th");
+        th_TastStatus.innerHTML="Task Status";
+        tr.appendChild(th_TastStatus);
+
+        const th_Action = document.createElement("th");
+        th_Action.innerHTML=" Action ";
+        tr.appendChild(th_Action);
+      
+        thead.appendChild(tr);
+        tasksTable.appendChild(thead);
+
+        for (let i=0; i<=tasks.length; i++)
+        {
+            for(x in tasks[i])
+            {
+                console.log(tasks[i][x] + "\n");
+            }
+            console.log("*************************");
+        }
+
+        const taskrow = document.createElement("tr");
+        const taskvale = document.createElement("td");
+        taskvale.innerHTML="Task 1";
+        const tStatus = document.createElement("td");
+        tStatus.innerHTML="Incomplete";
+        taskrow.appendChild(taskvale);
+        taskrow.appendChild(tStatus);
+        tbody.appendChild(taskrow);
+        tasksTable.appendChild(tbody);
+
+        document.body.appendChild(tasksTable);
+
+       
+ //   data  += tasks.map(n => n.taskName + " " + n.taskStatus).join("<br>");
+    //     document.getElementById("datalist").innerHTML = data;
+
+    </script>
+</body>
+</html>

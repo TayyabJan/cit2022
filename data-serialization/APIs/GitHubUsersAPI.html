@@ -36,7 +36,9 @@
 
         const divUsers = document.getElementById('ghubusers');
 
-
+        const data = JSON.parse(localStorage.getItem("list"))
+        console.log("Printing Saved Data");
+        console.log(data);
         const showUsers = () => {
 
             divUsers.innerHTML = "";

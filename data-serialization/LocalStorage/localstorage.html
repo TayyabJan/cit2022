@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+
+        const list = [
+            {
+                id: 1,
+                name: "Tayyab",
+                city: "Peshawar"
+            },
+            {
+                id:2,
+                name: "Ali",
+                city: "Abbotabad"
+
+            }
+        ]
+
+        const list2 = [
+            {
+                id: 1,
+                name: "Tayyab",
+                city: "Peshawar"
+            },
+            {
+                id:2,
+                name: "Ali",
+                city: "Abbotabad"
+
+            }
+        ]
+        console.log("Objects Created");
+        console.log(list);
+        //console.log(list2);
+       
+            console.log("Objects Saved");
+
+        localStorage.setItem("List1",JSON.stringify(list));
+        
+        //sessionStorage.setItem("List2",JSON.stringify(list2));
+
+        console.log("Object retreived ");
+        const data = JSON.parse(localStorage.getItem("List1"));
+
+        console.log(data);
+
+        // remove storage
+        //localStorage.removeItem("List1");
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <title>Guessing Game</title>
+</head>
+
+<body>
+    <div class="container bg-warning mt-5">
+        <div class="m-2">
+            <h1 class="text-center">Guessing Game</h1>
+            <h3>Rules of the Game</h3>
+            <ul>
+                <li>The computer will pick a random number between 1 and 100.</li>
+                <li>You will guess the number in 5 tries.</li>
+                <li>If the entered number is greater than what computer has guessed, you will be informed to go down
+                </li>
+                <li>If the entered number is less than what computer has guessed, you will be informed to go up</li>
+                <li>If you guess the number correctly, you win.</li>
+                <li>If you guess the number incorrectly, you lose.</li>
+            </ul>
+        </div>
+        <div class="row text-center g-4">
+            <div class="col-md">
+                <div class="m-2">
+                    <select id="gamelevel" onchange="getval()">
+                        <option>Select Difficulty Level</option>
+                        <option>Easy</option>
+                        <option>Normal</option>
+                        <option>Hard</option>
+                    </select>
+                    <!-- <label id="game"></label> -->
+                </div>
+                <div class="m-1">
+                    <input type="text" id="uvalue" placeholder="enter number here" />
+                    <p class="m-1"> <label for="attempts" id="attempts"> Tries Left (0) </label></p>
+                </div>
+                <div class="m-1">
+                    <button class="btn btn-primary" onclick="guessnum()"> Guess Now</button>
+                    <p><label id="results"> </label></p>
+                </div>
+
+
+            </div>
+        </div>
+        <script>
+
+            let tries = 0;
+            let random_number
+            const getrandombetwenn = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
+
+            // a function called on dropdown onchage() event called
+            const getval = () => {
+                // reset results lable first. 
+                document.getElementById("results").style.color = "black";
+                document.getElementById("results").innerHTML = "...";
+                // get selected value when dropdown onchange event occurs
+                let e = document.getElementById("gamelevel");
+                let text = e.options[e.selectedIndex].text;
+                // check for selected values 
+                if (text == "Easy") {
+                    random_number = getrandombetwenn(100, 1);
+                    console.log(random_number + 5);
+                    tries = 7;
+                    //document.getElementById("game").innerHTML = "Game Level Selected : " + text;
+                }
+                else if (text == "Normal") {
+                    random_number = getrandombetwenn(100, 1);
+                    console.log(random_number + 5);
+                    tries = 5;
+                    // document.getElementById("game").innerHTML = "Game Level Selected : " + text;
+                }
+                else if (text == "Hard") {
+                    random_number = getrandombetwenn(100, 1);
+                    console.log(random_number + 5);
+                    tries = 3;
+                    //document.getElementById("game").innerHTML = "Game Level Selected : " + text;
+                }
+                // if none of the levels are selected. show an error type message
+                else if (text == "Select Difficulty Level") {
+                    document.getElementById("results").style.color = "red";
+                    document.getElementById("results").innerHTML = "Please Select level First";
+                    tries = 0;
+                }
+                // since every level have different tries defined. here it shows number of tries against selected level
+                document.getElementById("attempts").innerHTML = " Tries Left : ( " + tries + " )";
+            }
+            // function to compare the values and shows results accordingly  
+            const guessnum = () => {
+                // get user number here
+                let num = document.getElementById("uvalue").value;
+                if (tries > 0) {
+                    // check     
+                    tries -= 1; // decrement tries
+                    document.getElementById("attempts").innerHTML = ` Tries Left : (   ${tries} )`;
+                    if (num == random_number) {
+                        document.getElementById("results").innerHTML = "You WIN !!!! ";
+                    }
+                    else if (tries >= 1) {
+                        if (num > random_number) {
+                            document.getElementById("results").innerHTML = "Num is greater , go down ";
+                        }
+                        else {
+                            document.getElementById("results").innerHTML = "Num is Less , go Up ";
+                        }
+                    }
+                    else {
+
+                        document.getElementById("results").innerHTML = " Not Matched !!! Game Over. ";
+                    }
+                }
+
+
+                else {
+
+                    document.getElementById("results").innerHTML = " No Tries !!! Game Over. ";
+                }
+
+            }
+
+
+        </script>
+</body>
+
+</html>
