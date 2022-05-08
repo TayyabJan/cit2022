@@ -1,112 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-    
-        <title>Craps Game</title>
-    </head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <title>Craps Game</title>
+</head>
+
 <body>
     <div class="container">
 
-   <div class="bg-light mt-5">
-    <h1>Craps</h1>
-    <h1>Rules for the Game of Craps (dice game)</h1>
-    <ul>
-        <li>Roll two dice.</li>
-        <li>If the sum of the dice is 7 or 11 on the first throw, you win.</li>
-        <li>If the sum of the dice is 2, 3, or 12 on the first throw, you lose.</li>
-        <li>If the sum of the dice is 4, 5, 6, 8, 9, or 10 on the first throw, you can roll the dice again.</li>
-        <li>If you roll the same number you rolled for the point, you win.</li>
-        <li>If you roll a 7 before rolling the same number, you lose.</li>
-    </ul>
-   </div>
+        <div class="bg-light mt-5">
+            <h1>Craps</h1>
+            <h1>Rules for the Game of Craps (dice game)</h1>
+            <ul>
+                <li>Roll two dice.</li>
+                <li>If the sum of the dice is 7 or 11 on the first throw, you win.</li>
+                <li>If the sum of the dice is 2, 3, or 12 on the first throw, you lose.</li>
+                <li>If the sum of the dice is 4, 5, 6, 8, 9, or 10 on the first throw, you can roll the dice again.</li>
+                <li>If you roll the same number you rolled for the point, you win.</li>
+                <li>If you roll a 7 before rolling the same number, you lose.</li>
+            </ul>
+        </div>
 
-   <div class="row text-center">
-        
-        <div class="col-md">
+        <div class="row text-center">
 
-            <div class="m-2">          
-                <img src="../craps/images/dice6.png" id="firstDice">
-                <img src="../craps/images/dice1.png" id="secondDice">
+            <div class="col-md">
+
+                <div class="m-2">
+                    <img src="../craps/images/dice6.png" id="firstDice">
+                    <img src="../craps/images/dice1.png" id="secondDice">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row text-center">
+            <div class="col-md">
+
+                <div class="m-2">
+                    <button onclick="rollDices()" id="btnRoll" class="btn btn-info">Roll</button>
+                    <p> <label id="diceinfo">...</label> </p>
+                </div>
             </div>
         </div>
-        
-   </div>
 
-   <div class="row text-center">
-    <div class="col-md">
-
-        <div class="m-2">
-            <button onclick="rollDices()" id ="btnRoll" class="btn btn-info">Roll</button>
-           <p> <label id="diceinfo">...</label> </p>
-        </div>
-    </div>
     </div>
 
- </div>
+    <script>
+        let diceThrow = 0;
+        let pointgained;
+        const max = 6, min = 1;
+        const getRandomDice = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
 
- <script>
-     let diceThrow=0;
-     let pointgained;
-     const max=6,min=1;
-     const getRandomDice = ( max, min ) => Math.floor ( Math.random() * (max - min +1 ) + min) ;
-     
-     const rollDices = () =>{
+        const rollDices = () => {
 
-        document.getElementById("diceinfo").innerHTML= "...";
-         diceThrow +=1;
-         const random1 = getRandomDice(max,min);
-         const random2 = getRandomDice(max,min);
-         const sumDices = random1 + random2;
+            document.getElementById("diceinfo").innerHTML = "...";
+            diceThrow += 1;
+            const random1 = getRandomDice(max, min);
+            const random2 = getRandomDice(max, min);
+            const sumDices = random1 + random2;
 
-         console.log(` First Dice is : ${random1} and Second Dice is : ${random2}`);
+            console.log(` First Dice is : ${random1} and Second Dice is : ${random2}`);
 
-         const firstDicePath = `../craps/images/dice${random1}.png`;
-         const secondtDicePath = `../craps/images/dice${random2}.png`;
-         
-          
-         document.getElementById("firstDice").src = firstDicePath;
-         document.getElementById("secondDice").src = secondtDicePath;
+            const firstDicePath = `../craps/images/dice${random1}.png`;
+            const secondtDicePath = `../craps/images/dice${random2}.png`;
 
-         if(diceThrow==1) {
-         if(  sumDices== 7  || sumDices== 11 ) {
-         document.getElementById("diceinfo").innerHTML= " You WIN !!!!";
-         }
-         else if ( sumDices == 2 || sumDices == 3  || sumDices == 12) {
-            document.getElementById("diceinfo").innerHTML= " You LOSE...";
-         }
 
-         else if ( sumDices== 4 ||  sumDices== 5 ||  sumDices== 6 ||   sumDices== 8 ||  sumDices== 9 ||  sumDices== 10 ) {
-                pointgained=sumDices;
-                document.getElementById("diceinfo").innerHTML= ` Roll for ${sumDices} before you get 7`;
-        
-         }
+            document.getElementById("firstDice").src = firstDicePath;
+            document.getElementById("secondDice").src = secondtDicePath;
+
+            if (diceThrow == 1) {
+                if (sumDices == 7 || sumDices == 11) {
+                    document.getElementById("diceinfo").innerHTML = " You WIN !!!!";
+                }
+                else if (sumDices == 2 || sumDices == 3 || sumDices == 12) {
+                    document.getElementById("diceinfo").innerHTML = " You LOSE...";
+                }
+
+                else if (sumDices == 4 || sumDices == 5 || sumDices == 6 || sumDices == 8 || sumDices == 9 || sumDices == 10) {
+                    pointgained = sumDices;
+                    document.getElementById("diceinfo").innerHTML = ` Roll for ${sumDices} before you get 7`;
+
+                }
+
+            }
+            else if (sumDices == pointgained) {
+                document.getElementById("diceinfo").innerHTML = ` You Get the Same ${pointgained} You WIN !!! `;
+            }
+            else if (sumDices == 7) {
+                document.getElementById("diceinfo").innerHTML = " OOps You LOSE...";
+            }
+            console.log(firstDicePath);
+
 
         }
-        else if( sumDices == pointgained) {
-            document.getElementById("diceinfo").innerHTML= ` You Get the Same ${pointgained} You WIN !!! `;
-        }
-        else if (sumDices ==7 ) {
-            document.getElementById("diceinfo").innerHTML= " OOps You LOSE...";
-        }
-         console.log(firstDicePath);
-
-
-     }
- </script>
+    </script>
 </body>
+
 </html>

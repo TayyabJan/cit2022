@@ -55,11 +55,7 @@
 </head>
 
 <body>
-
     <div class="container m-2">
-
-
-
         <input type="text" id="task" placeholder="Enter your task">
         <select id="task_statuses">
             <option>Select Status</option>
@@ -68,8 +64,6 @@
         </select>
         <input type="submit" id="add" class="btn btn-primary" onclick="manage_tasks()" value="Add">
         <label id="lblresults">...</label>
-
-
     </div>
 
     <script>
@@ -150,19 +144,17 @@
             selectedRow.cells[0].innerHTML = document.getElementById('task').value;
             selectedRow.cells[1].innerHTML = document.getElementById('task_statuses').value;
 
-            // tasks = tasks.map(n =>
-            //     (n.taskName === oldTaskName)
-            //         ?
-            //         (n.taskName = document.getElementById('task').value,
-            //             n.taskStatus = document.getElementById('task_statuses').value)
-            //         :
-            //         n);
-            // console.log(tasks);
+            tasks = tasks.map(n => {
 
-            tasks = tasks.map(n => (n.taskName == "Task 2") ? (
-                n.taskName = "Task 2 Updated", n.taskStatus = "Completed") : n);
-                console.log(tasks);
+                if (n.taskName === oldTaskName) {
+                    console.log(oldTaskName + "Found");
+                    (n.taskName = document.getElementById('task').value,
+                        n.taskStatus = document.getElementById('task_statuses').value)
+                }
 
+                return n;
+            });
+            
         }
 
         const OnEdit = (td) => {
@@ -187,7 +179,6 @@
 
         }
         loadTable();
-
         const manage_tasks = () => {
 
             document.getElementById('lblresults').innerHTML = "";
@@ -198,10 +189,14 @@
                 document.getElementById('lblresults').innerHTML = " Enter Task Name ";
                 document.getElementById('lblresults').style.color = "red";
             }
-            else if (tasks != null && tasks.some(n => n.taskName == taskName)) {
+            else if (selectedRow == null && tasks.some(n => n.taskName == taskName)) {
                 document.getElementById('lblresults').innerHTML = "Record Already Exists";
                 document.getElementById('lblresults').style.color = "red";
             }
+            else if (taskStatus == "Select Status") {
+                    document.getElementById('lblresults').style.color = "red";
+                    document.getElementById('lblresults').innerHTML = " Please Select Task Status";
+                }
             else if (taskStatus != "Select Status") {
                 if (selectedRow == null) {
                     const taskList = {
@@ -224,6 +219,7 @@
                     new_task.appendChild(taskAction);
                     tbody.appendChild(new_task);
                     tasksTable.appendChild(tbody);
+                    document.getElementById('task').value = "";
 
                 }
 
@@ -231,13 +227,10 @@
                     updateTable();
                     localStorage.setItem('tasks', JSON.stringify(tasks));
                     tasks = JSON.parse(localStorage.getItem("tasks"));
+                    document.getElementById('task').value = "";
                 }
-                else {
-                    document.getElementById('lblresults').style.color = "red";
-                    document.getElementById('lblresults').innerHTML = " Please Select Task Status";
-                }
-
-
+                
+               
             }
             selectedRow = null;
         }
