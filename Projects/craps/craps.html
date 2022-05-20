@@ -68,22 +68,16 @@
         const getRandomDice = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
 
         const rollDices = () => {
-
             document.getElementById("diceinfo").innerHTML = "...";
             diceThrow += 1;
             const random1 = getRandomDice(max, min);
             const random2 = getRandomDice(max, min);
             const sumDices = random1 + random2;
-
             console.log(` First Dice is : ${random1} and Second Dice is : ${random2}`);
-
             const firstDicePath = `../craps/images/dice${random1}.png`;
             const secondtDicePath = `../craps/images/dice${random2}.png`;
-
-
             document.getElementById("firstDice").src = firstDicePath;
             document.getElementById("secondDice").src = secondtDicePath;
-
             if (diceThrow == 1) {
                 if (sumDices == 7 || sumDices == 11) {
                     document.getElementById("diceinfo").innerHTML = " You WIN !!!!";
@@ -91,13 +85,10 @@
                 else if (sumDices == 2 || sumDices == 3 || sumDices == 12) {
                     document.getElementById("diceinfo").innerHTML = " You LOSE...";
                 }
-
                 else if (sumDices == 4 || sumDices == 5 || sumDices == 6 || sumDices == 8 || sumDices == 9 || sumDices == 10) {
                     pointgained = sumDices;
                     document.getElementById("diceinfo").innerHTML = ` Roll for ${sumDices} before you get 7`;
-
                 }
-
             }
             else if (sumDices == pointgained) {
                 document.getElementById("diceinfo").innerHTML = ` You Get the Same ${pointgained} You WIN !!! `;
@@ -106,8 +97,6 @@
                 document.getElementById("diceinfo").innerHTML = " OOps You LOSE...";
             }
             console.log(firstDicePath);
-
-
         }
     </script>
 </body>
