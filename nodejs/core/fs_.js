@@ -19,10 +19,10 @@ const fs = require('fs');
 // })
 
 // delete a file
-fs.unlink('test2.txt', function (err) {
-    if (err) throw err;
-    console.log('Deleted!');
-})
+// fs.unlink('test2.txt', function (err) {
+//     if (err) throw err;
+//     console.log('Deleted!');
+// })
 
 // // create a directory
 // fs.mkdir('test', function (err) {
@@ -41,6 +41,10 @@ fs.unlink('test2.txt', function (err) {
 //     if (err) throw err;
 //     console.log(files);
 // })
+fs.link('Test.txt','utf8',(err,data) =>{ 
+    if (err) return;
+
+})
 
 // // check if a file exists
 // fs.exists('test.txt', function (exists) {
