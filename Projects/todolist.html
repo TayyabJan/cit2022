@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <title>To Do List</title>
+
+    <style>
+        table {
+
+            width: 50%;
+            font-size: small;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            text-align: left;
+
+        }
+
+        /*tr:nth-child(even) {
+    background-color: lightyellow;
+}*/
+
+        th {
+            background-color: #04AA6D;
+        }
+
+        tr:hover {
+            background-color: lightgray;
+            color: darkblue;
+        }
+
+        th {
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container m-2">
+        <input type="text" id="task" placeholder="Enter your task">
+        <select id="task_statuses">
+            <option>Select Status</option>
+            <option>Completed</option>
+            <option>In Complete</option>
+        </select>
+        <input type="submit" id="add" class="btn btn-primary" onclick="manage_tasks()" value="Add">
+        <label id="lblresults">...</label>
+    </div>
+
+    <script>
+        var selectedRow = null;
+        var row = null;
+        let taskName, taskStatus;
+
+        let tasks = [];
+
+        // tasks.push(["SampleTask","Completed"]);
+
+        tasks = JSON.parse(localStorage.getItem("tasks"));
+        if (tasks == null) {
+            tasks = [];
+        }
+        const tasksTable = document.createElement("table");
+        tasksTable.id = "tasksTable";
+        tasksTable.border = "1";
+        tasksTable.className = "ml-2"
+
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+        const tr = document.createElement("tr");
+
+        const th_Task = document.createElement("th");
+        th_Task.innerHTML = "Task Name ";
+        tr.appendChild(th_Task);
+        const th_TastStatus = document.createElement("th");
+        th_TastStatus.innerHTML = "Task Status";
+        tr.appendChild(th_TastStatus);
+
+        const th_Action = document.createElement("th");
+        th_Action.innerHTML = " Action ";
+        tr.appendChild(th_Action);
+
+        thead.appendChild(tr);
+        tasksTable.appendChild(thead);
+
+        /// Create table to display already saved tasks 
+        const loadTable = () => {
+
+            document.getElementById('lblresults').innerHTML = "";
+
+
+            //// table head is defined fetching data from tasks array now    
+
+            let totalTasks = 0;
+            if (tasks != null) {
+                totalTasks = tasks.length;
+            }
+
+            for (let i = 0; i < totalTasks; i++) {
+
+                const taskrow = document.createElement("tr");
+
+                for (x in tasks[i]) {
+                    const taskvalue = document.createElement("td");
+                    taskvalue.innerHTML = tasks[i][x];
+                    taskvalue.id = tasks[i][x];
+                    taskrow.appendChild(taskvalue);
+                }
+                const taskAction = document.createElement("td");
+                // const taskActionDelete = document.createElement("button");
+                taskAction.innerHTML = `<a onclick="OnEdit(this)">Edit</a>
+                                             <a onclick="OnDelete(this)">Delete</a>`;
+                taskrow.appendChild(taskAction);
+
+                tbody.appendChild(taskrow);
+            }
+
+            tasksTable.appendChild(tbody);
+            document.body.appendChild(tasksTable);
+        }
+
+        let oldTaskName = "";
+        const updateTable = () => {
+            document.getElementById('lblresults').innerHTML = "";
+            selectedRow.cells[0].innerHTML = document.getElementById('task').value;
+            selectedRow.cells[1].innerHTML = document.getElementById('task_statuses').value;
+
+            tasks = tasks.map(n => {
+
+                if (n.taskName === oldTaskName) {
+                    console.log(oldTaskName + "Found");
+                    (n.taskName = document.getElementById('task').value,
+                        n.taskStatus = document.getElementById('task_statuses').value)
+                }
+
+                return n;
+            });
+            
+        }
+
+        const OnEdit = (td) => {
+            document.getElementById('lblresults').innerHTML = "";
+
+            selectedRow = td.parentElement.parentElement;
+            oldTaskName = selectedRow.cells[0].innerHTML;
+            document.getElementById('task').value = oldTaskName;
+
+            document.getElementById('task_statuses').value = 'In Complete'
+               // selectedRow.cells[1].innerHTML;
+
+        }
+        const OnDelete = (td) => {
+            document.getElementById('lblresults').innerHTML = "";
+            row = td.parentElement.parentElement;
+            if (confirm("Do You want to Delete")) {
+                deleteTask(document.getElementById("tasksTable").rows[row.rowIndex].cells[0].innerHTML);
+                document.getElementById("tasksTable").deleteRow(row.rowIndex);
+                console.log(tasks);
+            }
+
+        }
+        loadTable();
+        const manage_tasks = () => {
+
+            document.getElementById('lblresults').innerHTML = "";
+            taskName = document.getElementById('task').value;
+            taskStatus = document.getElementById('task_statuses').value;
+            if (taskName == "") {
+                document.getElementById('task').focus();
+                document.getElementById('lblresults').innerHTML = " Enter Task Name ";
+                document.getElementById('lblresults').style.color = "red";
+            }
+            else if (selectedRow == null && tasks.some(n => n.taskName == taskName)) {
+                document.getElementById('lblresults').innerHTML = "Record Already Exists";
+                document.getElementById('lblresults').style.color = "red";
+            }
+            else if (taskStatus == "Select Status") {
+                    document.getElementById('lblresults').style.color = "red";
+                    document.getElementById('lblresults').innerHTML = " Please Select Task Status";
+                }
+            else if (taskStatus != "Select Status") {
+                if (selectedRow == null) {
+                    const taskList = {
+                        taskName,
+                        taskStatus
+                    }
+                    tasks.push(taskList);
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    tasks = JSON.parse(localStorage.getItem("tasks"));
+                    const new_task = document.createElement('tr');
+                    const newTaskName = document.createElement('td');
+                    newTaskName.innerHTML = taskName;
+                    new_task.appendChild(newTaskName);
+                    const newTaskStatus = document.createElement('td');
+                    newTaskStatus.innerHTML = taskStatus;
+                    new_task.appendChild(newTaskStatus);
+                    const taskAction = document.createElement("td");
+                    taskAction.innerHTML = `<a onclick="OnEdit(this)">Edit</a>
+                                           <a onclick="OnDelete(this)">Delete</a>`;
+                    new_task.appendChild(taskAction);
+                    tbody.appendChild(new_task);
+                    tasksTable.appendChild(tbody);
+                    document.getElementById('task').value = "";
+
+                }
+
+                else if (selectedRow != null) {
+                    updateTable();
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    tasks = JSON.parse(localStorage.getItem("tasks"));
+                    document.getElementById('task').value = "";
+                }
+                
+               
+            }
+            selectedRow = null;
+        }
+        const deleteTask = (tvalue) => {
+            tasks = tasks.map(n => n.taskName != tvalue ? n : null).filter(n => n != null);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+    </script>
+</body>
+
+</html>

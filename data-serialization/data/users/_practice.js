@@ -69,7 +69,11 @@ posts.map( p => {
         }
     })
 });
+
+console.log("wELCOME");
 console.log(list2[0]);
+
+
  
 
 

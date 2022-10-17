@@ -1,16 +1,28 @@
 const fs = require('fs');
 
-// read a file
-// fs.readFile('test.txt', 'utf8', function (err, data) {
-//     if (err) throw err;
-//     console.log(data);
+// fs.createWriteStream('Test.txt','utf8',(err,data) =>{ 
+//     if (err) return;
+
 // })
+
+fs.createWriteStream('test.json',(err,data) =>{ 
+    if (err) return;
+
+})
 
 // // write a file
 // fs.writeFile('test.txt', 'Hello World!', function (err) {
 //     if (err) throw err;
 //     console.log('Saved!');
 // })
+
+// read a file
+// fs.readFile('test.txt', 'utf8', function (err, data) {
+//     if (err) throw err;
+//     console.log(data);
+// })
+
+
 
 // rename a file
 // fs.rename('test.txt', 'test2.txt', function (err) {
@@ -41,10 +53,8 @@ const fs = require('fs');
 //     if (err) throw err;
 //     console.log(files);
 // })
-fs.link('Test.txt','utf8',(err,data) =>{ 
-    if (err) return;
 
-})
+
 
 // // check if a file exists
 // fs.exists('test.txt', function (exists) {
